@@ -1,6 +1,15 @@
 using Swashbuckle.AspNetCore.SwaggerGen;
 
+
+
+DotEnv.Load();
+
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddDbContext<DataContext>(options =>
+{
+    options.UseNpgsql(EnvReader.GetStringValue("PostgreSQLConnection"));
+});
 
 // Add services to the container.
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
