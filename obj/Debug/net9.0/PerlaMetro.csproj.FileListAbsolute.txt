@@ -145,3 +145,5 @@ C:\Users\rauli\OneDrive\Escritorio\perlaMetro\PerlaMetro\obj\Debug\net9.0\refint
 C:\Users\rauli\OneDrive\Escritorio\perlaMetro\PerlaMetro\obj\Debug\net9.0\PerlaMetro.pdb
 C:\Users\rauli\OneDrive\Escritorio\perlaMetro\PerlaMetro\obj\Debug\net9.0\PerlaMetro.genruntimeconfig.cache
 C:\Users\rauli\OneDrive\Escritorio\perlaMetro\PerlaMetro\obj\Debug\net9.0\ref\PerlaMetro.dll
+C:\Users\rauli\OneDrive\Escritorio\perlaMetro\PerlaMetro\obj\Debug\net9.0\PerlaMetro.sourcelink.json
+C:\Users\rauli\OneDrive\Escritorio\perlaMetro\PerlaMetro\bin\Debug\net9.0\Bogus.dll

@@ -1,10 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "wcfjg8S16OE=",
+  "dgSpecHash": "w//NcOs4bLY=",
   "success": true,
   "projectFilePath": "C:\\Users\\rauli\\OneDrive\\Escritorio\\perlaMetro\\PerlaMetro\\PerlaMetro.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\rauli\\.nuget\\packages\\bcrypt.net-next\\4.0.3\\bcrypt.net-next.4.0.3.nupkg.sha512",
+    "C:\\Users\\rauli\\.nuget\\packages\\bogus\\35.6.3\\bogus.35.6.3.nupkg.sha512",
     "C:\\Users\\rauli\\.nuget\\packages\\dotenv.net\\4.0.0\\dotenv.net.4.0.0.nupkg.sha512",
     "C:\\Users\\rauli\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\rauli\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\7.0.16\\microsoft.aspnetcore.authentication.jwtbearer.7.0.16.nupkg.sha512",
