@@ -15,6 +15,7 @@ namespace PerlaMetro.src.controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles = "Admin")]
     public class UserManagementController : ControllerBase
     {
         private readonly UserManager<AppUser> _userManager;
@@ -25,25 +26,20 @@ namespace PerlaMetro.src.controllers
         }
 
         [HttpGet("users")]
-        public async Task<IActionResult> GetUsers([FromQuery] string adminEmail, [FromQuery] string? name, [FromQuery] string? email, [FromQuery] int? isActive)
+        public async Task<IActionResult> GetUsers( [FromQuery] string? name, [FromQuery] string? email, [FromQuery] int? isActive)
         {
-            if (string.IsNullOrEmpty(adminEmail))
-                return BadRequest("Debes ingresar un correo de administrador.");
-
-            if (adminEmail != "admin@perlametro.cl")
-                return BadRequest("No tienes permisos para ver la lista de usuarios.");
 
             var query = _userManager.Users.AsQueryable();
 
-            if(!string.IsNullOrEmpty(name))
+            if (!string.IsNullOrEmpty(name))
             {
                 query = query.Where(u => (u.Name + " " + u.LastName).Contains(name));
             }
-            if(!string.IsNullOrEmpty(email))
+            if (!string.IsNullOrEmpty(email))
             {
                 query = query.Where(u => u.Email != null && u.Email.Contains(email));
             }
-            if(isActive.HasValue)
+            if (isActive.HasValue)
             {
                 query = query.Where(u => u.IsActive == isActive.Value);
             }
@@ -64,14 +60,9 @@ namespace PerlaMetro.src.controllers
         }
 
         [HttpGet("user/{id}")]
-        public IActionResult GetUserById([FromQuery] string adminEmail, [FromRoute] Guid id)
+        public IActionResult GetUserById( [FromRoute] Guid id)
         {
-            if (string.IsNullOrEmpty(adminEmail))
-                return BadRequest("Debes ingresar un correo de administrador.");
-
-            if (adminEmail != "admin@perlametro.cl")
-                return BadRequest("No tienes permisos para ver la lista de usuarios.");
-
+            
             if (id == Guid.Empty)
                 return BadRequest("El ID del usuario no puede estar vacío.");
             try
@@ -102,12 +93,8 @@ namespace PerlaMetro.src.controllers
         }
 
         [HttpDelete("user/{id}")]
-        public async Task<IActionResult> SoftDeleteUser([FromQuery] string adminEmail, [FromRoute] Guid id)
+        public async Task<IActionResult> SoftDeleteUser([FromRoute] Guid id)
         {
-            if (string.IsNullOrEmpty(adminEmail))
-                return BadRequest("Debes ingresar un correo de administrador.");
-            if (adminEmail != "admin@perlametro.cl")
-                return BadRequest("No tienes permisos para eliminar usuarios.");
             if (id == Guid.Empty)
                 return BadRequest("El ID del usuario no puede estar vacío.");
             try
