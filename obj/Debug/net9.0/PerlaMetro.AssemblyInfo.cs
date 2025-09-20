@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("PerlaMetro")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f3e20f5f5ba506c9b8d2cdd97a9b635ce603afc9")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f1e7f28237c73e13b7c66d3ae45b267c9fb6652a")]
 [assembly: System.Reflection.AssemblyProductAttribute("PerlaMetro")]
 [assembly: System.Reflection.AssemblyTitleAttribute("PerlaMetro")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

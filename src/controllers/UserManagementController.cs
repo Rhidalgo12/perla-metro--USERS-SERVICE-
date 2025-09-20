@@ -25,7 +25,7 @@ namespace PerlaMetro.src.controllers
         }
 
         [HttpGet("users")]
-        public async Task<IActionResult> GetUsers([FromQuery] string adminEmail)
+        public async Task<IActionResult> GetUsers([FromQuery] string adminEmail, [FromQuery] string? name, [FromQuery] string? email, [FromQuery] int? isActive)
         {
             if (string.IsNullOrEmpty(adminEmail))
                 return BadRequest("Debes ingresar un correo de administrador.");
@@ -33,7 +33,22 @@ namespace PerlaMetro.src.controllers
             if (adminEmail != "admin@perlametro.cl")
                 return BadRequest("No tienes permisos para ver la lista de usuarios.");
 
-            var users = await _userManager.Users
+            var query = _userManager.Users.AsQueryable();
+
+            if(!string.IsNullOrEmpty(name))
+            {
+                query = query.Where(u => (u.Name + " " + u.LastName).Contains(name));
+            }
+            if(!string.IsNullOrEmpty(email))
+            {
+                query = query.Where(u => u.Email != null && u.Email.Contains(email));
+            }
+            if(isActive.HasValue)
+            {
+                query = query.Where(u => u.IsActive == isActive.Value);
+            }
+
+            var users = await query
                 .Select(u => new UserDto
                 {
                     Id = u.Id,
