@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PerlaMetro.src.dtos
 {
-    public class RegisterDto
+    public class EditProfileDto
     {
         [Required(ErrorMessage = "El nombre es obligatorio")]
         [StringLength(50, MinimumLength = 2, ErrorMessage = "El nombre debe tener entre 2 y 50 caracteres")]
@@ -25,12 +25,5 @@ namespace PerlaMetro.src.dtos
         [RegularExpression(@"^[a-zA-Z0-9._%+-]+@perlametro\.cl$", 
             ErrorMessage = "El correo debe pertenecer al dominio @perlametro.cl")]
         public string Email { get; set; } = string.Empty;
-
-        [Required(ErrorMessage = "La contraseña es obligatoria.")]
-        [StringLength(20, MinimumLength = 8, ErrorMessage = "La contraseña debe tener entre 8 y 20 caracteres.")]
-        [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^a-zA-Z0-9]).{8,20}$", 
-        ErrorMessage = "La contraseña debe incluir al menos una mayúscula, una minúscula, un número y un carácter especial.")]
-        public string Password { get; set; } = string.Empty;
-
     }
 }

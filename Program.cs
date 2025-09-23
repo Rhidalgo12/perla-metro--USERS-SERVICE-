@@ -29,6 +29,8 @@ builder.Services.AddDbContext<DataContext>(options =>
 builder.Services.AddOpenApi();
 builder.Services.AddControllers();
 builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<IPasswordHasher<AppUser>, BCryptPasswordHasher<AppUser>>();
+builder.Services.AddScoped<EditService>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(option =>
 {
