@@ -21,7 +21,14 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<DataContext>(options =>
 {
-    options.UseNpgsql(EnvReader.GetStringValue("PostgreSQLConnection"));
+    options.UseNpgsql(
+        EnvReader.GetStringValue("PostgreSQLConnection"),
+        npgsqlOptions => npgsqlOptions.EnableRetryOnFailure(
+            maxRetryCount: 5,
+            maxRetryDelay: TimeSpan.FromSeconds(10),
+            errorCodesToAdd: null
+        )
+    );
 });
 
 // Add services to the container.
@@ -97,6 +104,7 @@ using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
     var context = services.GetRequiredService<DataContext>();
+    context.Database.Migrate();
     _ = DataSeeder.Initialize(services);
 }
 
@@ -110,12 +118,11 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-
 app.UseSwagger();
 app.UseSwaggerUI();
+app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
-app.UseHttpsRedirection();
 app.Run();
 
 
