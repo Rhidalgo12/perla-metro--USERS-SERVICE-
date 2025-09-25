@@ -99,6 +99,17 @@ builder.Services.AddAuthentication(opt => {
 
 
 var app = builder.Build();
+var extractedApiKey = Environment.GetEnvironmentVariable("API_KEY");
+app.Use(async (context, next) =>
+{
+    if (!context.Request.Headers.TryGetValue("x-api-key", out var apiKey) || apiKey != extractedApiKey)
+    {
+        context.Response.StatusCode = 401; // Unauthorized
+        await context.Response.WriteAsync("API Key was not provided or is invalid.");
+        return;
+    }
+    await next();
+});
 
 using (var scope = app.Services.CreateScope())
 {
