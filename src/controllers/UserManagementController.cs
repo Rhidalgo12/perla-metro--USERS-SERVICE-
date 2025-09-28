@@ -13,22 +13,40 @@ using PerlaMetro.src.models.User;
 
 namespace PerlaMetro.src.controllers
 {
+    /// <summary>
+    /// Controller for managing users, including retrieval and soft deletion.
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     [Authorize(Roles = "Admin")]
     public class UserManagementController : ControllerBase
     {
+        /// <summary>
+        /// UserManager instance for managing user-related operations.
+        /// </summary>
         private readonly UserManager<AppUser> _userManager;
-
+        /// <summary>
+        /// Initializes a new instance of the <see cref="UserManagementController"/> class.
+        /// </summary>
+        /// <param name="userManager">The user manager.</param>
         public UserManagementController(UserManager<AppUser> userManager)
         {
             _userManager = userManager;
         }
-
+        /// <summary>
+        /// Retrieves a list of users with optional filtering by name, email, and active status.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="email"></param>
+        /// <param name="isActive"></param>
+        /// <returns></returns>
         [HttpGet("users")]
         public async Task<IActionResult> GetUsers( [FromQuery] string? name, [FromQuery] string? email, [FromQuery] int? isActive)
         {
-
+            /// <summary>
+            /// Builds the query for retrieving users based on the provided filters.
+            /// </summary>
+            /// <returns></returns>
             var query = _userManager.Users.AsQueryable();
 
             if (!string.IsNullOrEmpty(name))
@@ -43,7 +61,10 @@ namespace PerlaMetro.src.controllers
             {
                 query = query.Where(u => u.IsActive == isActive.Value);
             }
-
+            /// <summary>
+            /// List of users matching the specified criteria.
+            /// </summary>
+            /// <value></value>
             var users = await query
                 .Select(u => new UserDto
                 {
@@ -58,15 +79,22 @@ namespace PerlaMetro.src.controllers
 
             return Ok(users);
         }
-
+        /// <summary>
+        /// Retrieves a user by their unique identifier.
+        /// </summary>
+        /// <param name="id">The unique identifier of the user.</param>
+        /// <returns>The user with the specified identifier, or NotFound if not found.</returns>
         [HttpGet("user/{id}")]
         public IActionResult GetUserById( [FromRoute] Guid id)
         {
-            
+            /// <summary> Validates the provided user ID.
+            /// </summary> <returns>BadRequest if the ID is empty.</returns>
             if (id == Guid.Empty)
                 return BadRequest("El ID del usuario no puede estar vacío.");
             try
             {
+                /// <summary> Retrieves the user with the specified ID.
+                /// </summary> <returns>The user if found, otherwise NotFound.</returns>
                 var user = _userManager.Users
                     .Where(u => u.Id == id)
                     .Select(u => new UserDto
@@ -91,14 +119,24 @@ namespace PerlaMetro.src.controllers
             }
             return NotFound("Usuario no encontrado.");
         }
-
+        /// <summary>
+        /// Soft deletes a user by setting their IsActive status to 0.
+        /// </summary>
+        /// <param name="id">The unique identifier of the user.</param>
+        /// <returns>Ok if the user was successfully deleted, otherwise an error response.</returns>
         [HttpDelete("user/{id}")]
         public async Task<IActionResult> SoftDeleteUser([FromRoute] Guid id)
         {
+            /// <summary> Validates the provided user ID.
+            /// </summary> <returns>BadRequest if the ID is empty.</returns>
             if (id == Guid.Empty)
                 return BadRequest("El ID del usuario no puede estar vacío.");
             try
             {
+                /// <summary>
+                /// Retrieves the user with the specified ID.
+                /// </summary>
+                /// <returns>The user if found, otherwise NotFound.</returns>
                 var user = await _userManager.Users.FirstOrDefaultAsync(u => u.Id == id);
                 if (user == null)
                     return NotFound("Usuario no encontrado.");

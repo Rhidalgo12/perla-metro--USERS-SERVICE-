@@ -18,7 +18,9 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 DotEnv.Load();
 
 var builder = WebApplication.CreateBuilder(args);
-
+/// <summary>
+/// Configures the database context.
+/// </summary>
 builder.Services.AddDbContext<DataContext>(options =>
 {
     options.UseNpgsql(
@@ -99,6 +101,9 @@ builder.Services.AddAuthentication(opt => {
 
 
 var app = builder.Build();
+/// <summary>
+/// Middleware to validate API key from headers.
+/// </summary>
 var extractedApiKey = Environment.GetEnvironmentVariable("API_KEY");
 app.Use(async (context, next) =>
 {
@@ -110,7 +115,9 @@ app.Use(async (context, next) =>
     }
     await next();
 });
-
+/// <summary>
+/// Initializes the database and applies migrations.
+/// </summary>
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
